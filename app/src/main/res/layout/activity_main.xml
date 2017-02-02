@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:background="#69801B"
+    android:keepScreenOn="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.patrick.lafaychrono_lite.MainActivity">
+
+    <Button
+        android:text="01:00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button25"
+        android:layout_toRightOf="@+id/button25"
+        android:layout_toEndOf="@+id/button25"
+        android:layout_marginLeft="48dp"
+        android:layout_marginStart="48dp"
+        android:id="@+id/button1min" />
+
+    <Button
+        android:text="01:30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button25"
+        android:layout_alignLeft="@+id/button25"
+        android:layout_alignStart="@+id/button25"
+        android:layout_marginTop="28dp"
+        android:id="@+id/button1min30" />
+
+    <Button
+        android:text="02:00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button1min30"
+        android:layout_alignLeft="@+id/button1min"
+        android:layout_alignStart="@+id/button1min"
+        android:id="@+id/button2min" />
+
+    <Button
+        android:text="03:00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:id="@+id/button3min"
+        android:layout_below="@+id/button1min30"
+        android:layout_alignLeft="@+id/button1min30"
+        android:layout_alignStart="@+id/button1min30" />
+
+    <Button
+        android:text="04:00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/button3min"
+        android:layout_alignLeft="@+id/button2min"
+        android:layout_alignStart="@+id/button2min"
+        android:id="@+id/button4min" />
+
+    <RatingBar
+        android:isIndicator="true"
+        android:numStars="6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Reset total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:id="@+id/buttonResetTotal"
+        android:layout_below="@+id/buttonCancelCountDown"
+        android:layout_alignLeft="@+id/buttonCancelCountDown"
+        android:layout_alignStart="@+id/buttonCancelCountDown"
+        android:layout_alignRight="@+id/buttonCancelCountDown"
+        android:layout_alignEnd="@+id/buttonCancelCountDown"
+        android:visibility="invisible" />
+
+    <Button
+        android:text="00:25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="31dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="33dp"
+        android:id="@+id/button25"
+        android:layout_below="@+id/ratingBar"
+        android:layout_alignLeft="@+id/ratingBar"
+        android:layout_alignStart="@+id/ratingBar" />
+
+    <Button
+        android:text="Cancel countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:id="@+id/buttonCancelCountDown"
+        android:layout_below="@+id/button3min"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
