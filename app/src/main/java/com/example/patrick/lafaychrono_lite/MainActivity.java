@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.Button;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.app.AlertDialog;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public RatingBar rating_bar;
     public int button_countdown_touched;
     public Vibrator countdown_finished_vibrator;
+    public Vibrator button_touched_vibrator;
     public Button touched_button;
 
     @Override
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         
         started = false;
         countdown_finished_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        button_touched_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE) ;
         button25 = (Button)findViewById(R.id.button25);
 
         button25.setOnClickListener(new OnClickListener() {
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     counter = new ButtonCountDown(25000, 1000);
 
                     counter.start();
+                    button_touched_vibrator.vibrate(1000);
                     updateRatingBar();
                 }
             }
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     counter = new ButtonCountDown(60000, 1000);
 
                     counter.start();
+                    button_touched_vibrator.vibrate(1000);
                     updateRatingBar();
                 }
             }
@@ -81,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     counter = new ButtonCountDown(90000, 1000);
 
                     counter.start();
+                    button_touched_vibrator.vibrate(1000);
                     updateRatingBar();
                 }
             }
@@ -97,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     counter = new ButtonCountDown(120000, 1000);
 
                     counter.start();
+                    button_touched_vibrator.vibrate(1000);
                     updateRatingBar();
                 }
             }
@@ -114,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     counter = new ButtonCountDown(180000, 1000);
 
                     counter.start();
+                    button_touched_vibrator.vibrate(1000);
                     updateRatingBar();
                 }
             }
@@ -130,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     counter = new ButtonCountDown(240000, 1000);
                     
                     counter.start();
+                    button_touched_vibrator.vibrate(1000);
                     updateRatingBar();
                 }
             }
@@ -199,10 +208,21 @@ public class MainActivity extends AppCompatActivity {
             button3min.setText("03:00");
             button4min.setText("04:00");
 
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+            try {
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 
-            r.play();
+                r.play();
+                countdown_finished_vibrator.vibrate(1000);
+            }catch (Exception e) {
+                Context context = getApplicationContext();
+
+                new AlertDialog.Builder(context)
+                        .setTitle("Bug")
+                        .setMessage(e.getMessage())
+                        .show();
+            }
+
 
             if(serie_number == 6) {
                 updateRatingBar();
