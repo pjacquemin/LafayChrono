@@ -62,13 +62,14 @@
         android:id="@+id/button4min" />
 
     <RatingBar
-        android:isIndicator="true"
+        android:isIndicator="false"
         android:numStars="6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ratingBar"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:rating="6" />
 
     <Button
         android:text="Reset total"

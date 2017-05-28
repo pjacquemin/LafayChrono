@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public Button button_reset_total;
     public Boolean started;
     public ButtonCountDown counter;
-    public int serie_number = 0;
+    public int serie_number = 6;
     public RatingBar rating_bar;
     public int button_countdown_touched;
     public Vibrator countdown_finished_vibrator;
@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
                     counter = new ButtonCountDown(25000, 1000);
 
                     counter.start();
-                    button_touched_vibrator.vibrate(1000);
                     updateRatingBar();
+                    button_touched_vibrator.vibrate(100);
                 }
             }
         });
@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
                     counter = new ButtonCountDown(60000, 1000);
 
                     counter.start();
-                    button_touched_vibrator.vibrate(1000);
                     updateRatingBar();
+                    button_touched_vibrator.vibrate(1000);
                 }
             }
         });
@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
                     counter = new ButtonCountDown(90000, 1000);
 
                     counter.start();
-                    button_touched_vibrator.vibrate(1000);
                     updateRatingBar();
+                    button_touched_vibrator.vibrate(100);
                 }
             }
         });
@@ -103,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
                     counter = new ButtonCountDown(120000, 1000);
 
                     counter.start();
-                    button_touched_vibrator.vibrate(1000);
                     updateRatingBar();
+                    button_touched_vibrator.vibrate(100);
                 }
             }
         });
@@ -121,8 +121,8 @@ public class MainActivity extends AppCompatActivity {
                     counter = new ButtonCountDown(180000, 1000);
 
                     counter.start();
-                    button_touched_vibrator.vibrate(1000);
                     updateRatingBar();
+                    button_touched_vibrator.vibrate(100);
                 }
             }
         });
@@ -138,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
                     counter = new ButtonCountDown(240000, 1000);
                     
                     counter.start();
-                    button_touched_vibrator.vibrate(1000);
                     updateRatingBar();
+                    button_touched_vibrator.vibrate(100);
                 }
             }
         });
@@ -150,9 +150,9 @@ public class MainActivity extends AppCompatActivity {
             //@Override
             public void onClick(View arg0) {
                 button_reset_total.setVisibility(View.INVISIBLE);
-                rating_bar.setRating(0);
+                rating_bar.setRating(6);
 
-                serie_number = 0;
+                serie_number = 6;
             }
         });
 
@@ -175,13 +175,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateRatingBar() {
-        if(serie_number == 6) {
-            serie_number = 0;
-        } else {
-            serie_number++;
-        }
-
         rating_bar = (RatingBar)findViewById(R.id.ratingBar);
+        serie_number = (int) rating_bar.getRating();
+
+        if(serie_number == 0) {
+            serie_number = 6;
+        } else {
+            serie_number--;
+        }
 
         rating_bar.setRating(serie_number);
 
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-            if(serie_number == 6) {
+            if(serie_number == 0) {
                 updateRatingBar();
             }
         }
