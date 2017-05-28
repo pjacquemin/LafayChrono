@@ -72,19 +72,6 @@
         android:rating="6" />
 
     <Button
-        android:text="Reset total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:id="@+id/buttonResetTotal"
-        android:layout_below="@+id/buttonCancelCountDown"
-        android:layout_alignLeft="@+id/buttonCancelCountDown"
-        android:layout_alignStart="@+id/buttonCancelCountDown"
-        android:layout_alignRight="@+id/buttonCancelCountDown"
-        android:layout_alignEnd="@+id/buttonCancelCountDown"
-        android:visibility="invisible" />
-
-    <Button
         android:text="00:25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -100,7 +87,7 @@
         android:text="Cancel countdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/buttonCancelCountDown"
         android:layout_below="@+id/button3min"
         android:layout_centerHorizontal="true" />

@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     public Button button3min;
     public Button button4min;
     public Button button_cancel_countdown;
-    public Button button_reset_total;
     public Boolean started;
     public ButtonCountDown counter;
     public int serie_number = 6;
@@ -144,18 +143,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        button_reset_total = (Button)findViewById(R.id.buttonResetTotal);
-
-        button_reset_total.setOnClickListener(new OnClickListener() {
-            //@Override
-            public void onClick(View arg0) {
-                button_reset_total.setVisibility(View.INVISIBLE);
-                rating_bar.setRating(6);
-
-                serie_number = 6;
-            }
-        });
-
         button_cancel_countdown = (Button)findViewById(R.id.buttonCancelCountDown);
 
         button_cancel_countdown.setOnClickListener(new OnClickListener() {
@@ -185,12 +172,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         rating_bar.setRating(serie_number);
-
-        if(serie_number > 0) {
-            button_reset_total.setVisibility(View.VISIBLE);
-        } else {
-            button_reset_total.setVisibility(View.INVISIBLE);
-        }
     }
 
     public class ButtonCountDown extends CountDownTimer {
