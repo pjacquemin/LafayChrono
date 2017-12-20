@@ -69,7 +69,8 @@
         android:id="@+id/ratingBar"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:rating="6" />
+        android:rating="6"
+        android:stepSize="1" />
 
     <Button
         android:text="00:25"
