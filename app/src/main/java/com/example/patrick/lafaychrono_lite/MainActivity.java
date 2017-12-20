@@ -190,21 +190,11 @@ public class MainActivity extends AppCompatActivity {
             button3min.setText("03:00");
             button4min.setText("04:00");
 
-            try {
-                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 
-                r.play();
-                countdown_finished_vibrator.vibrate(1000);
-            }catch (Exception e) {
-                Context context = getApplicationContext();
-
-                new AlertDialog.Builder(context)
-                        .setTitle("Bug")
-                        .setMessage(e.getMessage())
-                        .show();
-            }
-
+            r.play();
+            countdown_finished_vibrator.vibrate(1000);
 
             if(serie_number == 0) {
                 updateRatingBar();
