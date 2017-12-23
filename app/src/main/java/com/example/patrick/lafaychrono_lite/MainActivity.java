@@ -15,6 +15,17 @@ import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity {
+    final int HUNDRED_MILLIS = 100;
+    final int ONE_SECOND = 1000;
+    final int TWEETY_FIVE_SECONDS = 25000;
+    final int ONE_MINUTE = 60000;
+    final int ONE_MINUTE_THIRTY_SECONDS = 90000;
+    final int TWO_MINUTES = 90000;
+    final int THREE_MINUTES = 90000;
+    final int FOUR_MINUTES = 90000;
+    final int SERIE_NUMBER_ZERO = 0;
+    final int SERIE_NUMBER_SIX = 6;
+
 
     public Button button25;
     public Button button1min;
@@ -25,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public Button button_cancel_countdown;
     public Boolean countdown_started;
     public ButtonCountDown counter;
-    public int serie_number = 6;
+    public int serie_number = SERIE_NUMBER_SIX;
     public RatingBar rating_bar;
     public Vibrator countdown_finished_vibrator;
     public Vibrator touching_button_vibrator;
@@ -50,22 +61,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 switch(view.getId()) {
                     case R.id.button25:
-                        counter = new ButtonCountDown(25000, 1000);
+                        counter = new ButtonCountDown(TWEETY_FIVE_SECONDS, ONE_SECOND);
                         break;
                     case R.id.button1min:
-                        counter = new ButtonCountDown(60000, 1000);
+                        counter = new ButtonCountDown(ONE_MINUTE, ONE_SECOND);
                         break;
                     case R.id.button1min30:
-                        counter = new ButtonCountDown(90000, 1000);
+                        counter = new ButtonCountDown(ONE_MINUTE_THIRTY_SECONDS, ONE_SECOND);
                         break;
                     case R.id.button2min:
-                        counter = new ButtonCountDown(120000, 1000);
+                        counter = new ButtonCountDown(TWO_MINUTES, ONE_SECOND);
                         break;
                     case R.id.button3min:
-                        counter = new ButtonCountDown(180000, 1000);
+                        counter = new ButtonCountDown(THREE_MINUTES, ONE_SECOND);
                         break;
                     case R.id.button4min:
-                        counter = new ButtonCountDown(240000, 1000);
+                        counter = new ButtonCountDown(FOUR_MINUTES, ONE_SECOND);
                         break;
                 }
 
@@ -77,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     updateRatingBar();
                 }
 
-                touching_button_vibrator.vibrate(100);
+                touching_button_vibrator.vibrate(HUNDRED_MILLIS);
             }
         };
 
@@ -85,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < layout.getChildCount(); i++) {
             View view = layout.getChildAt(i);
+
             if (view instanceof Button && view.getId() != R.id.buttonCancelCountDown) {
                 Button button_to_set_listener = (Button)findViewById(view.getId());
+
                 button_to_set_listener.setOnClickListener(countDownButtonClickListener);
             }
         }
@@ -104,26 +117,34 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void updateRatingBar() {
-        rating_bar = (RatingBar)findViewById(R.id.ratingBar);
-        serie_number = (int) rating_bar.getRating();
-
-        if(serie_number == 0) {
-            serie_number = 6;
-        } else {
-            serie_number--;
-        }
-
-        rating_bar.setRating(serie_number);
-    }
-
-    public void resetButtonsText() {
+    private void resetButtonsText() {
         button25.setText("00:25");
         button1min.setText("01:00");
         button1min30.setText("01:30");
         button2min.setText("02:00");
         button3min.setText("03:00");
         button4min.setText("04:00");
+    }
+
+    private void updateRatingBar() {
+        rating_bar = (RatingBar)findViewById(R.id.ratingBar);
+
+        updateSeriesNumber();
+        rating_bar.setRating(serie_number);
+    }
+
+    private void updateSeriesNumber() {
+        serie_number = (int) rating_bar.getRating();
+
+        if(isAllSeriesDone()) {
+            serie_number = SERIE_NUMBER_SIX;
+        } else {
+            serie_number--;
+        }
+    }
+
+    private boolean isAllSeriesDone() {
+        return serie_number == SERIE_NUMBER_ZERO;
     }
 
     public class ButtonCountDown extends CountDownTimer {
@@ -141,18 +162,18 @@ public class MainActivity extends AppCompatActivity {
             Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
 
             r.play();
-            countdown_finished_vibrator.vibrate(1000);
+            countdown_finished_vibrator.vibrate(ONE_SECOND);
 
-            if(serie_number == 0) {
+            if(isAllSeriesDone()) {
                 updateRatingBar();
             }
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
-            int minutes = (int) millisUntilFinished / 60000 ;
-            int seconds = (int)millisUntilFinished % 60000;
-            String time_until_finished = String.format("%02d:%02d", minutes, seconds / 1000);
+            int minutes = (int) millisUntilFinished / ONE_MINUTE ;
+            int seconds = (int)millisUntilFinished % ONE_MINUTE;
+            String time_until_finished = String.format("%02d:%02d", minutes, seconds / ONE_SECOND);
 
             touched_button.setText(time_until_finished);
         }
