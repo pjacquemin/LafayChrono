@@ -40,12 +40,13 @@ public class MainActivity extends AppCompatActivity {
     public Vibrator countdown_finished_vibrator;
     public Vibrator touching_button_vibrator;
     public Button touched_button;
+    private RelativeLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initializeComponents();
+        initializeComponentsVariables();
 
         View.OnClickListener countDownButtonClickListener = new View.OnClickListener() {
             public void onClick(View view) {
@@ -63,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 touching_button_vibrator.vibrate(HUNDRED_MILLIS);
             }
         };
-
-        RelativeLayout layout = (RelativeLayout)findViewById(R.id.activity_main);
 
         for (int i = 0; i < layout.getChildCount(); i++) {
             View view = layout.getChildAt(i);
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void initializeComponents() {
+    private void initializeComponentsVariables() {
         countdown_started = false;
         countdown_finished_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         touching_button_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE) ;
@@ -100,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         button3min = (Button)findViewById(R.id.button3min);
         button4min = (Button)findViewById(R.id.button4min);
         rating_bar = (RatingBar)findViewById(R.id.ratingBar);
+        layout = (RelativeLayout)findViewById(R.id.activity_main);
     }
 
     private void initializeCounter(View view) {
