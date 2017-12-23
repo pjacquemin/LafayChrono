@@ -56,36 +56,19 @@ public class MainActivity extends AppCompatActivity {
         button2min = (Button)findViewById(R.id.button2min);
         button3min = (Button)findViewById(R.id.button3min);
         button4min = (Button)findViewById(R.id.button4min);
+        rating_bar = (RatingBar)findViewById(R.id.ratingBar);
 
         View.OnClickListener countDownButtonClickListener = new View.OnClickListener() {
             public void onClick(View view) {
-                switch(view.getId()) {
-                    case R.id.button25:
-                        counter = new ButtonCountDown(TWEETY_FIVE_SECONDS, ONE_SECOND);
-                        break;
-                    case R.id.button1min:
-                        counter = new ButtonCountDown(ONE_MINUTE, ONE_SECOND);
-                        break;
-                    case R.id.button1min30:
-                        counter = new ButtonCountDown(ONE_MINUTE_THIRTY_SECONDS, ONE_SECOND);
-                        break;
-                    case R.id.button2min:
-                        counter = new ButtonCountDown(TWO_MINUTES, ONE_SECOND);
-                        break;
-                    case R.id.button3min:
-                        counter = new ButtonCountDown(THREE_MINUTES, ONE_SECOND);
-                        break;
-                    case R.id.button4min:
-                        counter = new ButtonCountDown(FOUR_MINUTES, ONE_SECOND);
-                        break;
-                }
+                initializeCounter(view);
 
                 if(!countdown_started){
                     touched_button = (Button)findViewById(view.getId());
                     countdown_started = true;
 
                     counter.start();
-                    updateRatingBar();
+                    updateSeriesNumber();
+                    rating_bar.setRating(serie_number);
                 }
 
                 touching_button_vibrator.vibrate(HUNDRED_MILLIS);
@@ -117,6 +100,29 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void initializeCounter(View view) {
+        switch(view.getId()) {
+            case R.id.button25:
+                counter = new ButtonCountDown(TWEETY_FIVE_SECONDS, ONE_SECOND);
+                break;
+            case R.id.button1min:
+                counter = new ButtonCountDown(ONE_MINUTE, ONE_SECOND);
+                break;
+            case R.id.button1min30:
+                counter = new ButtonCountDown(ONE_MINUTE_THIRTY_SECONDS, ONE_SECOND);
+                break;
+            case R.id.button2min:
+                counter = new ButtonCountDown(TWO_MINUTES, ONE_SECOND);
+                break;
+            case R.id.button3min:
+                counter = new ButtonCountDown(THREE_MINUTES, ONE_SECOND);
+                break;
+            case R.id.button4min:
+                counter = new ButtonCountDown(FOUR_MINUTES, ONE_SECOND);
+                break;
+        }
+    }
+
     private void resetButtonsText() {
         button25.setText("00:25");
         button1min.setText("01:00");
@@ -124,13 +130,6 @@ public class MainActivity extends AppCompatActivity {
         button2min.setText("02:00");
         button3min.setText("03:00");
         button4min.setText("04:00");
-    }
-
-    private void updateRatingBar() {
-        rating_bar = (RatingBar)findViewById(R.id.ratingBar);
-
-        updateSeriesNumber();
-        rating_bar.setRating(serie_number);
     }
 
     private void updateSeriesNumber() {
@@ -165,7 +164,8 @@ public class MainActivity extends AppCompatActivity {
             countdown_finished_vibrator.vibrate(ONE_SECOND);
 
             if(isAllSeriesDone()) {
-                updateRatingBar();
+                updateSeriesNumber();
+                rating_bar.setRating(serie_number);
             }
         }
 
