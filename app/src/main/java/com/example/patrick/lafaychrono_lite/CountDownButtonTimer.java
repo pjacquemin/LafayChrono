@@ -34,8 +34,8 @@ public class CountDownButtonTimer extends CountDownTimer {
 
     @Override
     public void onTick(long millisUntilFinished) {
-        int minutes = (int) millisUntilFinished / activity.ONE_MINUTE ;
-        int seconds = (int)millisUntilFinished % activity.ONE_MINUTE;
+        int minutes = (int) millisUntilFinished / CountDownButtonTimerFactory.ONE_MINUTE ;
+        int seconds = (int)millisUntilFinished % CountDownButtonTimerFactory.ONE_MINUTE;
         String time_until_finished = String.format("%02d:%02d", minutes, seconds / activity.ONE_SECOND);
 
         activity.touched_button.setText(time_until_finished);

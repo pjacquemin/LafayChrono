@@ -13,12 +13,6 @@ import android.widget.RelativeLayout;
 public class MainActivity extends AppCompatActivity {
     final int HUNDRED_MILLIS = 100;
     final int ONE_SECOND = 1000;
-    final int TWEETY_FIVE_SECONDS = 25000;
-    final int ONE_MINUTE = 60000;
-    final int ONE_MINUTE_THIRTY_SECONDS = 90000;
-    final int TWO_MINUTES = 120000;
-    final int THREE_MINUTES = 180000;
-    final int FOUR_MINUTES = 240000;
     final int SERIE_NUMBER_ZERO = 0;
     final int SERIE_NUMBER_SIX = 6;
 
@@ -47,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         countDownButtonClickListener = new OnClickListener() {
             public void onClick(View view) {
-                if(!countdown_started){
+                if(!countdown_started) {
                     countdown_started = true;
                     touched_button = (CountDownButton)findViewById(view.getId());
 
