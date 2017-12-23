@@ -2,9 +2,7 @@ package com.example.patrick.lafaychrono_lite;
 
 import android.media.Ringtone;
 import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.CountDownTimer;
-
 
 public class CountDownButtonTimer extends CountDownTimer {
     private MainActivity activity;
@@ -20,8 +18,7 @@ public class CountDownButtonTimer extends CountDownTimer {
 
         activity.resetButtonsText();
 
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Ringtone r = RingtoneManager.getRingtone(activity.getApplicationContext(), notification);
+        Ringtone r = RingtoneManager.getRingtone(activity.getApplicationContext(), activity.prefered_ringtone_uri);
 
         r.play();
         activity.countdown_finished_vibrator.vibrate(activity.ONE_SECOND);
