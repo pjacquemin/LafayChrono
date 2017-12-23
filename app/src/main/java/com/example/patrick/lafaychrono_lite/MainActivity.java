@@ -12,7 +12,7 @@ import android.widget.RatingBar;
 import android.widget.Button;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.app.AlertDialog;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,13 +23,12 @@ public class MainActivity extends AppCompatActivity {
     public Button button3min;
     public Button button4min;
     public Button button_cancel_countdown;
-    public Boolean started;
+    public Boolean countdown_started;
     public ButtonCountDown counter;
     public int serie_number = 6;
     public RatingBar rating_bar;
-    public int button_countdown_touched;
     public Vibrator countdown_finished_vibrator;
-    public Vibrator button_touched_vibrator;
+    public Vibrator touching_button_vibrator;
     public Button touched_button;
 
     @Override
@@ -37,126 +36,70 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        started = false;
+        countdown_started = false;
         countdown_finished_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        button_touched_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE) ;
+        touching_button_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE) ;
         button25 = (Button)findViewById(R.id.button25);
-
-        button25.setOnClickListener(new OnClickListener() {
-            //@Override
-            public void onClick(View arg0) {
-                if(started == false){
-                    touched_button = button25;
-                    started = true;
-                    counter = new ButtonCountDown(25000, 1000);
-
-                    counter.start();
-                    updateRatingBar();
-                    button_touched_vibrator.vibrate(100);
-                }
-            }
-        });
-
         button1min = (Button)findViewById(R.id.button1min);
-
-        button1min.setOnClickListener(new OnClickListener() {
-            //@Override
-            public void onClick(View arg0) {
-                if(started == false){
-                    touched_button = button1min;
-                    started = true;
-                    counter = new ButtonCountDown(60000, 1000);
-
-                    counter.start();
-                    updateRatingBar();
-                    button_touched_vibrator.vibrate(1000);
-                }
-            }
-        });
-
         button1min30 = (Button)findViewById(R.id.button1min30);
-
-        button1min30.setOnClickListener(new OnClickListener() {
-            //@Override
-            public void onClick(View arg0) {
-                if(started == false){
-                    touched_button = button1min30;
-                    started = true;
-                    counter = new ButtonCountDown(90000, 1000);
-
-                    counter.start();
-                    updateRatingBar();
-                    button_touched_vibrator.vibrate(100);
-                }
-            }
-        });
-
         button2min = (Button)findViewById(R.id.button2min);
-
-        button2min.setOnClickListener(new OnClickListener() {
-            //@Override
-            public void onClick(View arg0) {
-                if(started == false){
-                    touched_button = button2min;
-                    started = true;
-                    counter = new ButtonCountDown(120000, 1000);
-
-                    counter.start();
-                    updateRatingBar();
-                    button_touched_vibrator.vibrate(100);
-                }
-            }
-        });
-
         button3min = (Button)findViewById(R.id.button3min);
-
-        button3min.setOnClickListener(new OnClickListener() {
-
-            //@Override
-            public void onClick(View arg0) {
-                if(started == false){
-                    touched_button = button3min;
-                    started = true;
-                    counter = new ButtonCountDown(180000, 1000);
-
-                    counter.start();
-                    updateRatingBar();
-                    button_touched_vibrator.vibrate(100);
-                }
-            }
-        });
-
         button4min = (Button)findViewById(R.id.button4min);
 
-        button4min.setOnClickListener(new OnClickListener() {
-            //@Override
-            public void onClick(View arg0) {
-                if(started == false){
-                    touched_button = button4min;
-                    started = true;
-                    counter = new ButtonCountDown(240000, 1000);
-                    
+        View.OnClickListener countDownButtonClickListener = new View.OnClickListener() {
+            public void onClick(View view) {
+                switch(view.getId()) {
+                    case R.id.button25:
+                        counter = new ButtonCountDown(25000, 1000);
+                        break;
+                    case R.id.button1min:
+                        counter = new ButtonCountDown(60000, 1000);
+                        break;
+                    case R.id.button1min30:
+                        counter = new ButtonCountDown(90000, 1000);
+                        break;
+                    case R.id.button2min:
+                        counter = new ButtonCountDown(120000, 1000);
+                        break;
+                    case R.id.button3min:
+                        counter = new ButtonCountDown(180000, 1000);
+                        break;
+                    case R.id.button4min:
+                        counter = new ButtonCountDown(240000, 1000);
+                        break;
+                }
+
+                if(!countdown_started){
+                    touched_button = (Button)findViewById(view.getId());
+                    countdown_started = true;
+
                     counter.start();
                     updateRatingBar();
-                    button_touched_vibrator.vibrate(100);
                 }
+
+                touching_button_vibrator.vibrate(100);
             }
-        });
+        };
+
+        RelativeLayout layout = (RelativeLayout)findViewById(R.id.activity_main);
+
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            View view = layout.getChildAt(i);
+            if (view instanceof Button && view.getId() != R.id.buttonCancelCountDown) {
+                Button button_to_set_listener = (Button)findViewById(view.getId());
+                button_to_set_listener.setOnClickListener(countDownButtonClickListener);
+            }
+        }
 
         button_cancel_countdown = (Button)findViewById(R.id.buttonCancelCountDown);
 
         button_cancel_countdown.setOnClickListener(new OnClickListener() {
             //@Override
             public void onClick(View arg0) {
-                started = false;
+                countdown_started = false;
 
                 counter.cancel();
-                button25.setText("00:25");
-                button1min.setText("01:00");
-                button1min30.setText("01:30");
-                button2min.setText("02:00");
-                button3min.setText("03:00");
-                button4min.setText("04:00");
+                resetButtonsText();
             }
         });
     }
@@ -174,6 +117,15 @@ public class MainActivity extends AppCompatActivity {
         rating_bar.setRating(serie_number);
     }
 
+    public void resetButtonsText() {
+        button25.setText("00:25");
+        button1min.setText("01:00");
+        button1min30.setText("01:30");
+        button2min.setText("02:00");
+        button3min.setText("03:00");
+        button4min.setText("04:00");
+    }
+
     public class ButtonCountDown extends CountDownTimer {
         public ButtonCountDown(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
@@ -181,14 +133,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onFinish() {
-            started = false;
+            countdown_started = false;
 
-            button25.setText("00:25");
-            button1min.setText("01:00");
-            button1min30.setText("01:30");
-            button2min.setText("02:00");
-            button3min.setText("03:00");
-            button4min.setText("04:00");
+            resetButtonsText();
 
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
