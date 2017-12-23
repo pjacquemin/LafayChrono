@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Context;
 import android.os.Vibrator;
-import android.util.Log;
 import android.widget.RatingBar;
 import android.widget.Button;
 import android.view.View;
