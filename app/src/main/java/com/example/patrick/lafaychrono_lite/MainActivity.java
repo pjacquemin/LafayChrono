@@ -46,17 +46,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        countdown_started = false;
-        countdown_finished_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        touching_button_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE) ;
-        button25 = (Button)findViewById(R.id.button25);
-        button1min = (Button)findViewById(R.id.button1min);
-        button1min30 = (Button)findViewById(R.id.button1min30);
-        button2min = (Button)findViewById(R.id.button2min);
-        button3min = (Button)findViewById(R.id.button3min);
-        button4min = (Button)findViewById(R.id.button4min);
-        rating_bar = (RatingBar)findViewById(R.id.ratingBar);
+        initializeComponents();
 
         View.OnClickListener countDownButtonClickListener = new View.OnClickListener() {
             public void onClick(View view) {
@@ -98,6 +88,19 @@ public class MainActivity extends AppCompatActivity {
                 resetButtonsText();
             }
         });
+    }
+
+    private void initializeComponents() {
+        countdown_started = false;
+        countdown_finished_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        touching_button_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE) ;
+        button25 = (Button)findViewById(R.id.button25);
+        button1min = (Button)findViewById(R.id.button1min);
+        button1min30 = (Button)findViewById(R.id.button1min30);
+        button2min = (Button)findViewById(R.id.button2min);
+        button3min = (Button)findViewById(R.id.button3min);
+        button4min = (Button)findViewById(R.id.button4min);
+        rating_bar = (RatingBar)findViewById(R.id.ratingBar);
     }
 
     private void initializeCounter(View view) {
