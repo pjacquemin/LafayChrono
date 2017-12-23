@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     final int SERIE_NUMBER_ZERO = 0;
     final int SERIE_NUMBER_SIX = 6;
 
-
     public Button button25;
     public Button button1min;
     public Button button1min30;
