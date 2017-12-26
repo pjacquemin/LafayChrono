@@ -9,7 +9,7 @@ public class CountDownButtonTimerFactory {
     final static int THREE_MINUTES = 180000;
     final static int FOUR_MINUTES = 240000;
 
-    public static CountDownButtonTimer makeButton(MainActivity activity, int id) {
+    public static CountDownButtonTimer makeTimer(MainActivity activity, int id) {
         CountDownButtonTimer counter = new CountDownButtonTimer(activity, TWEETY_FIVE_SECONDS, activity.ONE_SECOND);
 
         switch(id) {

@@ -23,7 +23,7 @@ public class CountDownButton extends Button {
     }
 
     public void initCountDownTimer() {
-        this.count_down_timer = CountDownButtonTimerFactory.makeButton((MainActivity) getContext(), this.getId());
+        this.count_down_timer = CountDownButtonTimerFactory.makeTimer((MainActivity) getContext(), this.getId());
     }
 
     public CountDownButtonTimer getCountDownTimer() {

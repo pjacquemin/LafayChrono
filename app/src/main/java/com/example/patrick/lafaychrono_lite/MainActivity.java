@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
     public Uri prefered_ringtone_uri;
 
     private RelativeLayout layout;
-    private OnClickListener countDownButtonClickListener;
+    private OnClickListener count_down_button_on_click_listener;
+    private OnClickListener cancel_button_on_click_listener;
+    private OnClickListener ringtone_button_on_click_listener;
     private SharedPreferences shared_preferences;
     private String prefered_ringtone_uri_as_string;
 
@@ -50,44 +52,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initializeComponentsVariables();
         initializeSharedPreferences();
-
-        countDownButtonClickListener = new OnClickListener() {
-            public void onClick(View view) {
-                if(!countdown_started) {
-                    countdown_started = true;
-                    touched_button = (CountDownButton)findViewById(view.getId());
-
-                    touched_button.getCountDownTimer().start();
-                    updateSeriesNumber();
-                    rating_bar.setRating(serie_number);
-                }
-
-                touching_button_vibrator.vibrate(HUNDRED_MILLIS);
-            }
-        };
-
+        initializeListeners();
         setListenerOnCountDownButtons();
-
-        button_cancel_countdown.setOnClickListener(new OnClickListener() {
-            //@Override
-            public void onClick(View arg0) {
-                countdown_started = false;
-
-                touched_button.getCountDownTimer().cancel();
-                resetButtonsText();
-            }
-        });
-
-        ringtone_button.setOnClickListener(new OnClickListener() {
-            //@Override
-            public void onClick(View arg0) {
-                Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Tone");
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
-                startActivityForResult(intent, 5);
-            }
-        });
+        setListenerOnOthersButtons();
     }
 
     private void initializeComponentsVariables() {
@@ -111,9 +78,45 @@ public class MainActivity extends AppCompatActivity {
         prefered_ringtone_uri_as_string = shared_preferences.getString(SHARED_PREF_RINGTONE_KEY, null);
         prefered_ringtone_uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        if(prefered_ringtone_uri_as_string != null) {
+        if(!prefered_ringtone_uri_as_string.isEmpty()) {
             prefered_ringtone_uri = Uri.parse(prefered_ringtone_uri_as_string);
         }
+    }
+
+    private void initializeListeners() {
+        count_down_button_on_click_listener = new OnClickListener() {
+            public void onClick(View view) {
+                if(!countdown_started) {
+                    countdown_started = true;
+                    touched_button = (CountDownButton)findViewById(view.getId());
+
+                    touched_button.getCountDownTimer().start();
+                    updateSeriesNumber();
+                    rating_bar.setRating(serie_number);
+                }
+
+                touching_button_vibrator.vibrate(HUNDRED_MILLIS);
+            }
+        };
+
+        cancel_button_on_click_listener = new OnClickListener() {
+            public void onClick(View arg0) {
+                countdown_started = false;
+
+                touched_button.getCountDownTimer().cancel();
+                resetButtonsText();
+            }
+        };
+
+        ringtone_button_on_click_listener = new OnClickListener() {
+            public void onClick(View arg0) {
+                Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Tone");
+                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
+                startActivityForResult(intent, RINGTONE_REQUEST_CODE);
+            }
+        };
     }
 
     private void setListenerOnCountDownButtons() {
@@ -123,9 +126,14 @@ public class MainActivity extends AppCompatActivity {
             if (view instanceof Button && view.getId() != R.id.buttonCancelCountDown) {
                 Button button_to_set_listener = (Button)findViewById(view.getId());
 
-                button_to_set_listener.setOnClickListener(countDownButtonClickListener);
+                button_to_set_listener.setOnClickListener(count_down_button_on_click_listener);
             }
         }
+    }
+
+    private void setListenerOnOthersButtons() {
+        button_cancel_countdown.setOnClickListener(cancel_button_on_click_listener);
+        ringtone_button.setOnClickListener(ringtone_button_on_click_listener);
     }
 
     public void resetButtonsText() {
@@ -158,15 +166,23 @@ public class MainActivity extends AppCompatActivity {
         {
             prefered_ringtone_uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
 
-            if (prefered_ringtone_uri != null)
+            if (!isPreferedRingtoneUriNull())
             {
-                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-
-                editor.putString(SHARED_PREF_RINGTONE_KEY, prefered_ringtone_uri.toString());
-                editor.commit();
+                saveRingtoneUriIntoSharedPreferences();
             }
         }
+    }
+
+    private boolean isPreferedRingtoneUriNull() {
+        return prefered_ringtone_uri == null;
+    }
+
+    private void saveRingtoneUriIntoSharedPreferences() {
+        SharedPreferences.Editor editor = shared_preferences.edit();
+        String prefered_ringtone_uri_string = prefered_ringtone_uri.toString();
+
+        editor.putString(SHARED_PREF_RINGTONE_KEY, prefered_ringtone_uri_string);
+        editor.apply();
     }
 }
 
