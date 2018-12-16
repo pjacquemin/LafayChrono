@@ -101,9 +101,12 @@ public class MainActivity extends AppCompatActivity {
 
         cancel_button_on_click_listener = new OnClickListener() {
             public void onClick(View arg0) {
+                if(countdown_started) {
+                    touched_button.getCountDownTimer().cancel();
+                }
+
                 countdown_started = false;
 
-                touched_button.getCountDownTimer().cancel();
                 resetButtonsText();
             }
         };
