@@ -1,6 +1,6 @@
-# LafayChrono-Lite
-A lighter Lafay Chrono 
+# LafayChrono
 
-See orignal application : http://www.lafaychrono.com/
+This is another Lafay countdown application for Android
 
-This application is running on Android.
+- Factory design pattern is used
+- SharedPreferences is used to record the ringtone to play when the countdown is complete
