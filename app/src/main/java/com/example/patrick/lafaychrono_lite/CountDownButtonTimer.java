@@ -1,7 +1,7 @@
 package com.example.patrick.lafaychrono_lite;
 
-import android.media.Ringtone;
-import android.media.RingtoneManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.CountDownTimer;
 
 import java.util.concurrent.TimeUnit;
@@ -31,9 +31,10 @@ public class CountDownButtonTimer extends CountDownTimer {
 
         activity.resetButtonsText();
 
-        Ringtone r = RingtoneManager.getRingtone(activity.getApplicationContext(), activity.prefered_ringtone_uri);
-
-        r.play();
+        Uri notification = Uri.parse("android.resource://"
+                + activity.getPackageName() + "/" + R.raw.countdown_finished);
+        MediaPlayer mp = MediaPlayer.create(activity.getApplicationContext(), notification);
+        mp.start();
 
         if(activity.vibrate_countdown_finished) {
             activity.countdown_finished_vibrator.vibrate(activity.ONE_SECOND);
