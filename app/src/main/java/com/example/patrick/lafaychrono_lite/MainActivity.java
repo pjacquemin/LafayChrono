@@ -1,18 +1,24 @@
 package com.example.patrick.lafaychrono_lite;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.content.Context;
-import android.os.Vibrator;
-import android.widget.RatingBar;
-import android.widget.Button;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.RelativeLayout;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Vibrator;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity {
     final int HUNDRED_MILLIS = 100;
@@ -21,6 +27,14 @@ public class MainActivity extends AppCompatActivity {
     final int SERIE_NUMBER_SIX = 6;
     final int RINGTONE_REQUEST_CODE = 5;
     final String SHARED_PREF_RINGTONE_KEY = "lafay_ringtone";
+    final String SHARED_PREF_VIBRATE_TOUCH_KEY = "vibrate_on_touch";
+    final String SHARED_PREF_VIBRATE_FINISHED_KEY = "vibrate_when_countdown_finished";
+    final String SHARED_PREF_FIRST_COUNTDOWN_KEY = "countdown_first";
+    final String SHARED_PREF_SECOND_COUNTDOWN_KEY = "countdown_second";
+    final String SHARED_PREF_THIRD_COUNTDOWN_KEY = "countdown_third";
+    final String SHARED_PREF_FOURTH_COUNTDOWN_KEY = "countdown_fourth";
+    final String SHARED_PREF_FIFTH_COUNTDOWN_KEY = "countdown_fifth";
+    final String SHARED_PREF_SIXTH_COUNTDOWN_KEY = "countdown_sixth";
 
     public CountDownButton button25;
     public CountDownButton button1min;
@@ -38,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
     public Vibrator touching_button_vibrator;
     public CountDownButton touched_button;
     public Uri prefered_ringtone_uri;
+    public boolean vibrate_countdown_button;
+    public boolean vibrate_countdown_finished;
+    public long pref_first_countdown_millis;
+    public long pref_second_countdown_millis;
+    public long pref_third_countdown_millis;
+    public long pref_fourth_countdown_millis;
+    public long pref_fifth_countdown_millis;
+    public long pref_sixth_countdown_millis;
 
     private RelativeLayout layout;
     private OnClickListener count_down_button_on_click_listener;
@@ -45,16 +67,46 @@ public class MainActivity extends AppCompatActivity {
     private OnClickListener ringtone_button_on_click_listener;
     private SharedPreferences shared_preferences;
     private String prefered_ringtone_uri_as_string;
+    private Intent settings_intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initializeComponentsVariables();
         initializeSharedPreferences();
+        setContentView(R.layout.activity_main);
+
+        initializeComponentsVariables();
+
         initializeListeners();
         setListenerOnCountDownButtons();
         setListenerOnOthersButtons();
+        resetButtonsText();
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                settings_intent = new Intent(this, SettingsActivity.class);
+
+                startActivity(settings_intent);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initializeComponentsVariables() {
@@ -74,13 +126,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeSharedPreferences() {
-        shared_preferences = getPreferences(MODE_PRIVATE);
-        prefered_ringtone_uri_as_string = shared_preferences.getString(SHARED_PREF_RINGTONE_KEY, null);
+        shared_preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        prefered_ringtone_uri_as_string = shared_preferences.getString(SHARED_PREF_RINGTONE_KEY, "");
         prefered_ringtone_uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         if(!prefered_ringtone_uri_as_string.isEmpty()) {
             prefered_ringtone_uri = Uri.parse(prefered_ringtone_uri_as_string);
         }
+        vibrate_countdown_button = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_TOUCH_KEY, true);
+        pref_first_countdown_millis = shared_preferences.getLong(SHARED_PREF_FIRST_COUNTDOWN_KEY, 25000);
+        pref_second_countdown_millis = shared_preferences.getLong(SHARED_PREF_SECOND_COUNTDOWN_KEY, 60000);
+        pref_third_countdown_millis = shared_preferences.getLong(SHARED_PREF_THIRD_COUNTDOWN_KEY, 90000);
+        pref_fourth_countdown_millis = shared_preferences.getLong(SHARED_PREF_FOURTH_COUNTDOWN_KEY, 120000);
+        pref_fifth_countdown_millis = shared_preferences.getLong(SHARED_PREF_FIFTH_COUNTDOWN_KEY, 180000);
+        pref_sixth_countdown_millis = shared_preferences.getLong(SHARED_PREF_SIXTH_COUNTDOWN_KEY, 240000);
     }
 
     private void initializeListeners() {
@@ -95,7 +154,9 @@ public class MainActivity extends AppCompatActivity {
                     rating_bar.setRating(serie_number);
                 }
 
-                touching_button_vibrator.vibrate(HUNDRED_MILLIS);
+                if(vibrate_countdown_button) {
+                    touching_button_vibrator.vibrate(HUNDRED_MILLIS);
+                }
             }
         };
 
@@ -140,12 +201,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void resetButtonsText() {
-        button25.setText("00:25");
-        button1min.setText("01:00");
-        button1min30.setText("01:30");
-        button2min.setText("02:00");
-        button3min.setText("03:00");
-        button4min.setText("04:00");
+        button25.setTextWithTime();
+        button1min.setTextWithTime();
+        button1min30.setTextWithTime();
+        button2min.setTextWithTime();
+        button3min.setTextWithTime();
+        button4min.setTextWithTime();
     }
 
     public void updateSeriesNumber() {

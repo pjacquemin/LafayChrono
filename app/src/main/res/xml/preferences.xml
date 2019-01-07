@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreferenceCompat
+        android:key="vibrate_on_touch"
+        android:title="Countdown button vibration"
+        android:summary="Vibration when touching a countdown button"
+        android:defaultValue="1" />
+    <SwitchPreferenceCompat
+        android:key="vibrate_when_countdown_finished"
+        android:title="Countdown finished vibration"
+        android:summary="Vibration when the countdown is finished"
+        android:defaultValue="1" />
+
+    <PreferenceCategory
+        android:title="Countdowns">
+        <com.example.patrick.lafaychrono_lite.CountdownDialogPreference
+            android:key="countdown_first"
+            android:title="First"
+            android:summary="25:00 by default"
+            android:dialogLayout="@layout/edit_timer"
+            />
+        <com.example.patrick.lafaychrono_lite.CountdownDialogPreference
+            android:key="countdown_second"
+            android:title="Second"
+            android:summary="01:00 by default"
+            android:dialogLayout="@layout/edit_timer"
+            />
+        <com.example.patrick.lafaychrono_lite.CountdownDialogPreference
+            android:key="countdown_third"
+            android:title="Third"
+            android:summary="01:30 by default"
+            android:dialogLayout="@layout/edit_timer"
+            />
+        <com.example.patrick.lafaychrono_lite.CountdownDialogPreference
+            android:key="countdown_fourth"
+            android:title="Fourth"
+            android:summary="02:00 by default"
+            android:dialogLayout="@layout/edit_timer"
+            />
+        <com.example.patrick.lafaychrono_lite.CountdownDialogPreference
+            android:key="countdown_fifth"
+            android:title="Fifth"
+            android:summary="03:00 by default"
+            android:dialogLayout="@layout/edit_timer"
+            />
+        <com.example.patrick.lafaychrono_lite.CountdownDialogPreference
+            android:key="countdown_sixth"
+            android:title="Sixth"
+            android:summary="04:00 by default"
+            android:dialogLayout="@layout/edit_timer"
+            />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>
