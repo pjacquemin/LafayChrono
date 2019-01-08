@@ -21,8 +21,8 @@ import androidx.preference.PreferenceManager;
 public class MainActivity extends AppCompatActivity {
     final int HUNDRED_MILLIS = 100;
     final int ONE_SECOND = 1000;
-    final int SERIE_NUMBER_ZERO = 0;
-    final int SERIE_NUMBER_SIX = 6;
+    final int SERIES_NUMBER_ZERO = 0;
+    final int SERIES_NUMBER_SIX = 6;
     final String SHARED_PREF_VIBRATE_TOUCH_KEY = "vibrate_on_touch";
     final String SHARED_PREF_VIBRATE_FINISHED_KEY = "vibrate_when_countdown_finished";
     final String SHARED_PREF_FIRST_COUNTDOWN_KEY = "countdown_first";
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public CountDownButton button4min;
     public Button button_cancel_countdown;
     public Boolean countdown_started;
-    public int serie_number = SERIE_NUMBER_SIX;
+    public int series_number = SERIES_NUMBER_SIX;
     public RatingBar rating_bar;
     public Vibrator countdown_finished_vibrator;
     public Vibrator touching_button_vibrator;
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         initializeSharedPreferences();
         setContentView(R.layout.activity_main);
         initializeComponentsVariables();
@@ -71,7 +72,8 @@ public class MainActivity extends AppCompatActivity {
         setListenerOnOthersButtons();
         resetButtonsText();
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar myToolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(myToolbar);
     }
 
@@ -102,27 +104,27 @@ public class MainActivity extends AppCompatActivity {
         countdown_started = false;
         countdown_finished_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         touching_button_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE) ;
-        button25 = (CountDownButton)findViewById(R.id.button25);
-        button1min = (CountDownButton)findViewById(R.id.button1min);
-        button1min30 = (CountDownButton)findViewById(R.id.button1min30);
-        button2min = (CountDownButton)findViewById(R.id.button2min);
-        button3min = (CountDownButton)findViewById(R.id.button3min);
-        button4min = (CountDownButton)findViewById(R.id.button4min);
-        rating_bar = (RatingBar)findViewById(R.id.ratingBar);
-        layout = (RelativeLayout)findViewById(R.id.activity_main);
-        button_cancel_countdown = (Button)findViewById(R.id.buttonCancelCountDown);
+        button25 = findViewById(R.id.button25);
+        button1min = findViewById(R.id.button1min);
+        button1min30 = findViewById(R.id.button1min30);
+        button2min = findViewById(R.id.button2min);
+        button3min = findViewById(R.id.button3min);
+        button4min = findViewById(R.id.button4min);
+        rating_bar = findViewById(R.id.ratingBar);
+        layout = findViewById(R.id.activity_main);
+        button_cancel_countdown = findViewById(R.id.buttonCancelCountDown);
     }
 
     private void initializeSharedPreferences() {
         shared_preferences = PreferenceManager.getDefaultSharedPreferences(this);
         vibrate_countdown_button = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_TOUCH_KEY, true);
         vibrate_countdown_finished = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_FINISHED_KEY, true);
-        pref_first_countdown_millis = shared_preferences.getLong(SHARED_PREF_FIRST_COUNTDOWN_KEY, 25000);
-        pref_second_countdown_millis = shared_preferences.getLong(SHARED_PREF_SECOND_COUNTDOWN_KEY, 60000);
-        pref_third_countdown_millis = shared_preferences.getLong(SHARED_PREF_THIRD_COUNTDOWN_KEY, 90000);
-        pref_fourth_countdown_millis = shared_preferences.getLong(SHARED_PREF_FOURTH_COUNTDOWN_KEY, 120000);
-        pref_fifth_countdown_millis = shared_preferences.getLong(SHARED_PREF_FIFTH_COUNTDOWN_KEY, 180000);
-        pref_sixth_countdown_millis = shared_preferences.getLong(SHARED_PREF_SIXTH_COUNTDOWN_KEY, 240000);
+        pref_first_countdown_millis = shared_preferences.getLong(SHARED_PREF_FIRST_COUNTDOWN_KEY, CountDownButtonTimer.TWEETY_FIVE_SECONDS);
+        pref_second_countdown_millis = shared_preferences.getLong(SHARED_PREF_SECOND_COUNTDOWN_KEY, CountDownButtonTimer.ONE_MINUTE);
+        pref_third_countdown_millis = shared_preferences.getLong(SHARED_PREF_THIRD_COUNTDOWN_KEY, CountDownButtonTimer.ONE_MINUTE_THIRTY_SECONDS);
+        pref_fourth_countdown_millis = shared_preferences.getLong(SHARED_PREF_FOURTH_COUNTDOWN_KEY, CountDownButtonTimer.TWO_MINUTES);
+        pref_fifth_countdown_millis = shared_preferences.getLong(SHARED_PREF_FIFTH_COUNTDOWN_KEY, CountDownButtonTimer.THREE_MINUTES);
+        pref_sixth_countdown_millis = shared_preferences.getLong(SHARED_PREF_SIXTH_COUNTDOWN_KEY, CountDownButtonTimer.FOUR_MINUTES);
     }
 
     private void initializeListeners() {
@@ -130,11 +132,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(!countdown_started) {
                     countdown_started = true;
-                    touched_button = (CountDownButton)findViewById(view.getId());
+                    touched_button = findViewById(view.getId());
 
                     touched_button.getCountDownTimer().start();
                     updateSeriesNumber();
-                    rating_bar.setRating(serie_number);
+                    rating_bar.setRating(series_number);
                 }
 
                 if(vibrate_countdown_button) {
@@ -161,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             View view = layout.getChildAt(i);
 
             if (view instanceof Button && view.getId() != R.id.buttonCancelCountDown) {
-                Button button_to_set_listener = (Button)findViewById(view.getId());
+                Button button_to_set_listener = findViewById(view.getId());
 
                 button_to_set_listener.setOnClickListener(count_down_button_on_click_listener);
             }
@@ -173,26 +175,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void resetButtonsText() {
-        button25.setTextWithTime();
-        button1min.setTextWithTime();
-        button1min30.setTextWithTime();
-        button2min.setTextWithTime();
-        button3min.setTextWithTime();
-        button4min.setTextWithTime();
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            View view = layout.getChildAt(i);
+
+            if (view instanceof Button && view.getId() != R.id.buttonCancelCountDown) {
+                CountDownButton button_to_reset = findViewById(view.getId());
+                button_to_reset.setTextWithTime();
+            }
+        }
     }
 
     public void updateSeriesNumber() {
-        serie_number = (int) rating_bar.getRating();
+        series_number = (int) rating_bar.getRating();
 
         if(isAllSeriesDone()) {
-            serie_number = SERIE_NUMBER_SIX;
+            series_number = SERIES_NUMBER_SIX;
         } else {
-            serie_number--;
+            series_number--;
         }
     }
 
     public boolean isAllSeriesDone() {
-        return serie_number == SERIE_NUMBER_ZERO;
+        return series_number == SERIES_NUMBER_ZERO;
     }
 }
 

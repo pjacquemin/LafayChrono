@@ -24,7 +24,8 @@ public class CountdownDialogPreference extends DialogPreference {
     }
 
     public CountdownDialogPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, TypedArrayUtils.getAttr(context, androidx.preference.R.attr.editTextPreferenceStyle,
+        this(context, attrs, TypedArrayUtils.getAttr(context,
+                androidx.preference.R.attr.editTextPreferenceStyle,
                 AndroidResources.ANDROID_R_EDITTEXT_PREFERENCE_STYLE));
     }
 
@@ -64,7 +65,8 @@ public class CountdownDialogPreference extends DialogPreference {
 
     protected void restoreMinutesAndSeconds() {
         minutes = TimeUnit.MILLISECONDS.toMinutes(total_millis);
-        seconds = TimeUnit.MILLISECONDS.toSeconds(total_millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(total_millis));
+        seconds = TimeUnit.MILLISECONDS.toSeconds(total_millis)
+                    - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(total_millis));
     }
 
     @Override
@@ -79,7 +81,7 @@ public class CountdownDialogPreference extends DialogPreference {
             Long default_value_long = Long.valueOf((int)defaultValue);
             total_millis = getPersistedLong(default_value_long);
         } else {
-            total_millis = getPersistedLong(25000);
+            total_millis = getPersistedLong(CountDownButtonTimer.TWEETY_FIVE_SECONDS);
         }
 
         restoreMinutesAndSeconds();

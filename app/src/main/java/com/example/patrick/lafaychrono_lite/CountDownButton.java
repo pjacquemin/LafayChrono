@@ -10,32 +10,32 @@ public class CountDownButton extends AppCompatButton {
 
     public CountDownButton(Context context) {
         super(context, null);
-        this.initCountDownTimer();
+        initCountDownTimer();
         time = count_down_timer.getRemainingTimeInString();
     }
 
     public CountDownButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.initCountDownTimer();
+        initCountDownTimer();
         time = count_down_timer.getRemainingTimeInString();
     }
 
     public CountDownButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.initCountDownTimer();
+        initCountDownTimer();
         time = count_down_timer.getRemainingTimeInString();
     }
 
     public void initCountDownTimer() {
-        this.count_down_timer = CountDownButtonTimerFactory.makeTimer((MainActivity) getContext(), this.getId());
+        count_down_timer = CountDownButtonTimerFactory.makeTimer((MainActivity) getContext(), getId());
     }
 
     public CountDownButtonTimer getCountDownTimer() {
-        return this.count_down_timer;
+        return count_down_timer;
     }
 
     public void setTextWithTime() {
-        this.setText(time);
+        setText(time);
     }
 
 }

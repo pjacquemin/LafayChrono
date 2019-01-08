@@ -7,6 +7,13 @@ import android.os.CountDownTimer;
 import java.util.concurrent.TimeUnit;
 
 public class CountDownButtonTimer extends CountDownTimer {
+    final static int TWEETY_FIVE_SECONDS = 25000;
+    final static int ONE_MINUTE = 60000;
+    final static int ONE_MINUTE_THIRTY_SECONDS = 90000;
+    final static int TWO_MINUTES = 120000;
+    final static int THREE_MINUTES = 180000;
+    final static int FOUR_MINUTES = 240000;
+
     private MainActivity activity;
     private long millisInFuture;
     private String time_until_finished;
@@ -19,7 +26,8 @@ public class CountDownButtonTimer extends CountDownTimer {
 
     public String getRemainingTimeInString() {
         long minutes = TimeUnit.MILLISECONDS.toMinutes(millisInFuture);
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(millisInFuture) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisInFuture));
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(millisInFuture)
+                        - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisInFuture));
         time_until_finished = String.format("%02d:%02d", minutes, seconds);
 
         return time_until_finished;
@@ -42,7 +50,7 @@ public class CountDownButtonTimer extends CountDownTimer {
 
         if(activity.isAllSeriesDone()) {
             activity.updateSeriesNumber();
-            activity.rating_bar.setRating(activity.serie_number);
+            activity.rating_bar.setRating(activity.series_number);
         }
     }
 
