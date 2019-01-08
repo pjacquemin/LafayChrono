@@ -18,36 +18,42 @@
             android:title="First"
             android:summary="25:00 by default"
             android:dialogLayout="@layout/edit_timer"
+            android:defaultValue="25000"
             />
         <com.example.patrick.lafaychrono_lite.CountdownDialogPreference
             android:key="countdown_second"
             android:title="Second"
             android:summary="01:00 by default"
             android:dialogLayout="@layout/edit_timer"
+            android:defaultValue="60000"
             />
         <com.example.patrick.lafaychrono_lite.CountdownDialogPreference
             android:key="countdown_third"
             android:title="Third"
             android:summary="01:30 by default"
             android:dialogLayout="@layout/edit_timer"
+            android:defaultValue="90000"
             />
         <com.example.patrick.lafaychrono_lite.CountdownDialogPreference
             android:key="countdown_fourth"
             android:title="Fourth"
             android:summary="02:00 by default"
             android:dialogLayout="@layout/edit_timer"
+            android:defaultValue="120000"
             />
         <com.example.patrick.lafaychrono_lite.CountdownDialogPreference
             android:key="countdown_fifth"
             android:title="Fifth"
             android:summary="03:00 by default"
             android:dialogLayout="@layout/edit_timer"
+            android:defaultValue="180000"
             />
         <com.example.patrick.lafaychrono_lite.CountdownDialogPreference
             android:key="countdown_sixth"
             android:title="Sixth"
             android:summary="04:00 by default"
             android:dialogLayout="@layout/edit_timer"
+            android:defaultValue="240000"
             />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

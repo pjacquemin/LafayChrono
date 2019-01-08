@@ -75,7 +75,12 @@ public class CountdownDialogPreference extends DialogPreference {
 
     @Override
     protected void onSetInitialValue(Object defaultValue) {
-        total_millis = getPersistedLong(25000);
+        if(defaultValue != null) {
+            Long default_value_long = Long.valueOf((int)defaultValue);
+            total_millis = getPersistedLong(default_value_long);
+        } else {
+            total_millis = getPersistedLong(25000);
+        }
 
         restoreMinutesAndSeconds();
     }
