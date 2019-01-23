@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreferenceCompat
-        android:key="vibrate_on_touch"
-        android:title="Countdown button vibration"
-        android:summary="Vibration when touching a countdown button"
-        android:defaultValue="1" />
-    <SwitchPreferenceCompat
-        android:key="vibrate_when_countdown_finished"
-        android:title="Countdown finished vibration"
-        android:summary="Vibration when the countdown is finished"
-        android:defaultValue="1" />
-
+    <PreferenceCategory
+        android:title="Sound and vibration">
+        <SwitchPreferenceCompat
+            android:key="alarm_when_countdown_finished"
+            android:title="Countdown finished alarm"
+            android:summary="Alarm when the countdown is finished"
+            android:defaultValue="1" />
+        <SwitchPreferenceCompat
+            android:key="vibrate_when_countdown_finished"
+            android:title="Countdown finished vibration"
+            android:summary="Vibration when the countdown is finished"
+            android:defaultValue="1" />
+        <SwitchPreferenceCompat
+            android:key="vibrate_on_touch"
+            android:title="Countdown button vibration"
+            android:summary="Vibration when touching a countdown button"
+            android:defaultValue="1" />
+    </PreferenceCategory>
     <PreferenceCategory
         android:title="Countdowns">
         <com.example.patrick.lafaychrono_lite.CountdownDialogPreference

@@ -37,7 +37,9 @@ public class CountDownButtonTimer extends CountDownTimer {
 
         activity.resetButtonsText();
 
-        MediaPlayerSingleton.getInstance(activity).getMediaPlayer().start();
+        if(activity.alarm_countdown_finished) {
+            MediaPlayerSingleton.getInstance(activity).getMediaPlayer().start();
+        }
 
         if(activity.vibrate_countdown_finished) {
             activity.countdown_finished_vibrator.vibrate(activity.ONE_SECOND);

@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     final int SERIES_NUMBER_SIX = 6;
     final String SHARED_PREF_VIBRATE_TOUCH_KEY = "vibrate_on_touch";
     final String SHARED_PREF_VIBRATE_FINISHED_KEY = "vibrate_when_countdown_finished";
+    final String SHARED_PREF_ALARM_FINISHED_KEY = "alarm_when_countdown_finished";
     final String SHARED_PREF_FIRST_COUNTDOWN_KEY = "countdown_first";
     final String SHARED_PREF_SECOND_COUNTDOWN_KEY = "countdown_second";
     final String SHARED_PREF_THIRD_COUNTDOWN_KEY = "countdown_third";
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     public CountDownButton touched_button;
     public boolean vibrate_countdown_button;
     public boolean vibrate_countdown_finished;
+    public boolean alarm_countdown_finished;
     public long pref_first_countdown_millis;
     public long pref_second_countdown_millis;
     public long pref_third_countdown_millis;
@@ -119,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         shared_preferences = PreferenceManager.getDefaultSharedPreferences(this);
         vibrate_countdown_button = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_TOUCH_KEY, true);
         vibrate_countdown_finished = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_FINISHED_KEY, true);
+        alarm_countdown_finished = shared_preferences.getBoolean(SHARED_PREF_ALARM_FINISHED_KEY, true);
         pref_first_countdown_millis = shared_preferences.getLong(SHARED_PREF_FIRST_COUNTDOWN_KEY, CountDownButtonTimer.TWEETY_FIVE_SECONDS);
         pref_second_countdown_millis = shared_preferences.getLong(SHARED_PREF_SECOND_COUNTDOWN_KEY, CountDownButtonTimer.ONE_MINUTE);
         pref_third_countdown_millis = shared_preferences.getLong(SHARED_PREF_THIRD_COUNTDOWN_KEY, CountDownButtonTimer.ONE_MINUTE_THIRTY_SECONDS);
