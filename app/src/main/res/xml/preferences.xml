@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
+        android:title="Battery">
+        <SwitchPreferenceCompat
+            android:key="battery_save_theme"
+            android:title="Theme to save battery"
+            android:summary="Theme optimized to save the battery"
+            android:defaultValue="1" />
+    </PreferenceCategory>
+    <PreferenceCategory
         android:title="Sound and vibration">
         <SwitchPreferenceCompat
             android:key="alarm_when_countdown_finished"

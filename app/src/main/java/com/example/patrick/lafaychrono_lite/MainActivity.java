@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     final String SHARED_PREF_VIBRATE_TOUCH_KEY = "vibrate_on_touch";
     final String SHARED_PREF_VIBRATE_FINISHED_KEY = "vibrate_when_countdown_finished";
     final String SHARED_PREF_ALARM_FINISHED_KEY = "alarm_when_countdown_finished";
+    final String SHARED_PREF_BATTERY_SAVE_THEME_KEY = "battery_save_theme";
     final String SHARED_PREF_FIRST_COUNTDOWN_KEY = "countdown_first";
     final String SHARED_PREF_SECOND_COUNTDOWN_KEY = "countdown_second";
     final String SHARED_PREF_THIRD_COUNTDOWN_KEY = "countdown_third";
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean vibrate_countdown_button;
     public boolean vibrate_countdown_finished;
     public boolean alarm_countdown_finished;
+    public boolean energy_save_theme;
     public long pref_first_countdown_millis;
     public long pref_second_countdown_millis;
     public long pref_third_countdown_millis;
@@ -64,9 +66,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         initializeSharedPreferences();
+
+        if(energy_save_theme) {
+            setTheme(R.style.SaveBatteryTheme);
+        }
+
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initializeComponentsVariables();
         initializeListeners();
@@ -122,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         vibrate_countdown_button = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_TOUCH_KEY, true);
         vibrate_countdown_finished = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_FINISHED_KEY, true);
         alarm_countdown_finished = shared_preferences.getBoolean(SHARED_PREF_ALARM_FINISHED_KEY, true);
+        energy_save_theme = shared_preferences.getBoolean(SHARED_PREF_BATTERY_SAVE_THEME_KEY, true);
         pref_first_countdown_millis = shared_preferences.getLong(SHARED_PREF_FIRST_COUNTDOWN_KEY, CountDownButtonTimer.TWEETY_FIVE_SECONDS);
         pref_second_countdown_millis = shared_preferences.getLong(SHARED_PREF_SECOND_COUNTDOWN_KEY, CountDownButtonTimer.ONE_MINUTE);
         pref_third_countdown_millis = shared_preferences.getLong(SHARED_PREF_THIRD_COUNTDOWN_KEY, CountDownButtonTimer.ONE_MINUTE_THIRTY_SECONDS);
