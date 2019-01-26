@@ -33,22 +33,9 @@ public class CountDownButtonTimer extends CountDownTimer {
 
     @Override
     public void onFinish() {
-        activity.countdown_started = false;
-
-        activity.resetButtonsText();
-
-        if(activity.alarm_countdown_finished) {
-            MediaPlayerSingleton.getInstance(activity).getMediaPlayer().start();
-        }
-
-        if(activity.vibrate_countdown_finished) {
-            activity.countdown_finished_vibrator.vibrate(activity.ONE_SECOND);
-        }
-
-        if(activity.isAllSeriesDone()) {
-            activity.updateSeriesNumber();
-            activity.rating_bar.setRating(activity.series_number);
-        }
+        activity.resetCountDowns();
+        activity.playCountdownFinishedSound();
+        activity.vibrateCountDownFinished();
     }
 
     @Override
@@ -56,6 +43,6 @@ public class CountDownButtonTimer extends CountDownTimer {
         millisInFuture = millisUntilFinished;
         time_until_finished = getRemainingTimeInString();
 
-        activity.touched_button.setText(time_until_finished);
+        activity.setRemainingTimeOnCountdownButton(time_until_finished);
     }
 }

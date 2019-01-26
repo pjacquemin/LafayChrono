@@ -34,30 +34,16 @@ public class MainActivity extends AppCompatActivity {
     final String SHARED_PREF_FIFTH_COUNTDOWN_KEY = "countdown_fifth";
     final String SHARED_PREF_SIXTH_COUNTDOWN_KEY = "countdown_sixth";
 
-    public CountDownButton button25;
-    public CountDownButton button1min;
-    public CountDownButton button1min30;
-    public CountDownButton button2min;
-    public CountDownButton button3min;
-    public CountDownButton button4min;
-    public Button button_cancel_countdown;
-    public Boolean countdown_started;
-    public int series_number = SERIES_NUMBER_SIX;
-    public RatingBar rating_bar;
-    public Vibrator countdown_finished_vibrator;
-    public Vibrator touching_button_vibrator;
-    public CountDownButton touched_button;
-    public boolean vibrate_countdown_button;
-    public boolean vibrate_countdown_finished;
-    public boolean alarm_countdown_finished;
-    public boolean energy_save_theme;
-    public long pref_first_countdown_millis;
-    public long pref_second_countdown_millis;
-    public long pref_third_countdown_millis;
-    public long pref_fourth_countdown_millis;
-    public long pref_fifth_countdown_millis;
-    public long pref_sixth_countdown_millis;
-
+    private Button button_cancel_countdown;
+    private Boolean countdown_started = Boolean.FALSE;
+    private int series_number = SERIES_NUMBER_SIX;
+    private RatingBar rating_bar;
+    private Vibrator vibrator;
+    private CountDownButton touched_button;
+    private boolean vibrate_countdown_button;
+    private boolean vibrate_countdown_finished;
+    private boolean alarm_countdown_finished;
+    private boolean energy_save_theme;
     private RelativeLayout layout;
     private OnClickListener count_down_button_on_click_listener;
     private OnClickListener cancel_button_on_click_listener;
@@ -78,12 +64,125 @@ public class MainActivity extends AppCompatActivity {
         initializeListeners();
         setListenerOnCountDownButtons();
         setListenerOnOthersButtons();
-        resetButtonsText();
+        resetCountDowns();
 
         Toolbar myToolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(myToolbar);
     }
+
+    private void initializeSharedPreferences() {
+        shared_preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        vibrate_countdown_button = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_TOUCH_KEY, true);
+        vibrate_countdown_finished = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_FINISHED_KEY, true);
+        alarm_countdown_finished = shared_preferences.getBoolean(SHARED_PREF_ALARM_FINISHED_KEY, true);
+        energy_save_theme = shared_preferences.getBoolean(SHARED_PREF_BATTERY_SAVE_THEME_KEY, true);
+    }
+
+    private void initializeComponentsVariables() {
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        rating_bar = findViewById(R.id.ratingBar);
+        layout = findViewById(R.id.activity_main);
+        button_cancel_countdown = findViewById(R.id.buttonCancelCountDown);
+    }
+
+    private void initializeListeners() {
+        count_down_button_on_click_listener = new OnClickListener() {
+            public void onClick(View view) {
+                if(!countdown_started) {
+                    countdown_started = true;
+                    touched_button = findViewById(view.getId());
+
+                    touched_button.getCountDownTimer().start();
+                    updateSeriesNumber();
+                }
+
+                if(vibrate_countdown_button) {
+                    vibrator.vibrate(HUNDRED_MILLIS);
+                }
+            }
+        };
+
+        cancel_button_on_click_listener = new OnClickListener() {
+            public void onClick(View arg0) {
+                resetCountDowns();
+            }
+        };
+    }
+
+    private void setListenerOnCountDownButtons() {
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            View view = layout.getChildAt(i);
+
+            if (view instanceof Button && view.getId() != R.id.buttonCancelCountDown) {
+                Button button_to_set_listener = findViewById(view.getId());
+
+                button_to_set_listener.setOnClickListener(count_down_button_on_click_listener);
+            }
+        }
+    }
+
+    private void setListenerOnOthersButtons() {
+        button_cancel_countdown.setOnClickListener(cancel_button_on_click_listener);
+    }
+
+    public void resetCountDowns() {
+        if(countdown_started) {
+            touched_button.getCountDownTimer().cancel();
+        }
+
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            View view = layout.getChildAt(i);
+
+            if (view instanceof Button && view.getId() != R.id.buttonCancelCountDown) {
+                CountDownButton button_to_reset = findViewById(view.getId());
+                button_to_reset.setTextWithTime();
+            }
+        }
+
+        countdown_started = false;
+
+        if(isAllSeriesDone()) {
+            updateSeriesNumber();
+        }
+    }
+
+    public void updateSeriesNumber() {
+        series_number = (int) rating_bar.getRating();
+
+        if(isAllSeriesDone()) {
+            series_number = SERIES_NUMBER_SIX;
+        } else {
+            series_number--;
+        }
+
+        rating_bar.setRating(series_number);
+    }
+
+    public boolean isAllSeriesDone() {
+        return series_number == SERIES_NUMBER_ZERO;
+    }
+
+    public SharedPreferences getSharedPreferences() {
+        return shared_preferences;
+    }
+
+    public void vibrateCountDownFinished() {
+        if(vibrate_countdown_finished) {
+            vibrator.vibrate(ONE_SECOND);
+        }
+    }
+
+    public void setRemainingTimeOnCountdownButton(String remaining_time) {
+        touched_button.setText(remaining_time);
+    }
+
+    public void playCountdownFinishedSound() {
+        if(alarm_countdown_finished) {
+            MediaPlayerSingleton.getInstance(this).getMediaPlayer().start();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,107 +205,6 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void initializeComponentsVariables() {
-        countdown_started = false;
-        countdown_finished_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        touching_button_vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE) ;
-        button25 = findViewById(R.id.button25);
-        button1min = findViewById(R.id.button1min);
-        button1min30 = findViewById(R.id.button1min30);
-        button2min = findViewById(R.id.button2min);
-        button3min = findViewById(R.id.button3min);
-        button4min = findViewById(R.id.button4min);
-        rating_bar = findViewById(R.id.ratingBar);
-        layout = findViewById(R.id.activity_main);
-        button_cancel_countdown = findViewById(R.id.buttonCancelCountDown);
-    }
-
-    private void initializeSharedPreferences() {
-        shared_preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        vibrate_countdown_button = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_TOUCH_KEY, true);
-        vibrate_countdown_finished = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_FINISHED_KEY, true);
-        alarm_countdown_finished = shared_preferences.getBoolean(SHARED_PREF_ALARM_FINISHED_KEY, true);
-        energy_save_theme = shared_preferences.getBoolean(SHARED_PREF_BATTERY_SAVE_THEME_KEY, true);
-        pref_first_countdown_millis = shared_preferences.getLong(SHARED_PREF_FIRST_COUNTDOWN_KEY, CountDownButtonTimer.TWEETY_FIVE_SECONDS);
-        pref_second_countdown_millis = shared_preferences.getLong(SHARED_PREF_SECOND_COUNTDOWN_KEY, CountDownButtonTimer.ONE_MINUTE);
-        pref_third_countdown_millis = shared_preferences.getLong(SHARED_PREF_THIRD_COUNTDOWN_KEY, CountDownButtonTimer.ONE_MINUTE_THIRTY_SECONDS);
-        pref_fourth_countdown_millis = shared_preferences.getLong(SHARED_PREF_FOURTH_COUNTDOWN_KEY, CountDownButtonTimer.TWO_MINUTES);
-        pref_fifth_countdown_millis = shared_preferences.getLong(SHARED_PREF_FIFTH_COUNTDOWN_KEY, CountDownButtonTimer.THREE_MINUTES);
-        pref_sixth_countdown_millis = shared_preferences.getLong(SHARED_PREF_SIXTH_COUNTDOWN_KEY, CountDownButtonTimer.FOUR_MINUTES);
-    }
-
-    private void initializeListeners() {
-        count_down_button_on_click_listener = new OnClickListener() {
-            public void onClick(View view) {
-                if(!countdown_started) {
-                    countdown_started = true;
-                    touched_button = findViewById(view.getId());
-
-                    touched_button.getCountDownTimer().start();
-                    updateSeriesNumber();
-                    rating_bar.setRating(series_number);
-                }
-
-                if(vibrate_countdown_button) {
-                    touching_button_vibrator.vibrate(HUNDRED_MILLIS);
-                }
-            }
-        };
-
-        cancel_button_on_click_listener = new OnClickListener() {
-            public void onClick(View arg0) {
-                if(countdown_started) {
-                    touched_button.getCountDownTimer().cancel();
-                }
-
-                countdown_started = false;
-
-                resetButtonsText();
-            }
-        };
-    }
-
-    private void setListenerOnCountDownButtons() {
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            View view = layout.getChildAt(i);
-
-            if (view instanceof Button && view.getId() != R.id.buttonCancelCountDown) {
-                Button button_to_set_listener = findViewById(view.getId());
-
-                button_to_set_listener.setOnClickListener(count_down_button_on_click_listener);
-            }
-        }
-    }
-
-    private void setListenerOnOthersButtons() {
-        button_cancel_countdown.setOnClickListener(cancel_button_on_click_listener);
-    }
-
-    public void resetButtonsText() {
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            View view = layout.getChildAt(i);
-
-            if (view instanceof Button && view.getId() != R.id.buttonCancelCountDown) {
-                CountDownButton button_to_reset = findViewById(view.getId());
-                button_to_reset.setTextWithTime();
-            }
-        }
-    }
-
-    public void updateSeriesNumber() {
-        series_number = (int) rating_bar.getRating();
-
-        if(isAllSeriesDone()) {
-            series_number = SERIES_NUMBER_SIX;
-        } else {
-            series_number--;
-        }
-    }
-
-    public boolean isAllSeriesDone() {
-        return series_number == SERIES_NUMBER_ZERO;
     }
 }
 
