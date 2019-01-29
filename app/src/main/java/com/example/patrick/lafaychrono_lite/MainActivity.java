@@ -12,10 +12,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean vibrate_countdown_finished;
     private boolean alarm_countdown_finished;
     private boolean energy_save_theme;
-    private RelativeLayout layout;
+    private ConstraintLayout layout;
     private OnClickListener count_down_button_on_click_listener;
     private OnClickListener cancel_button_on_click_listener;
     private SharedPreferences shared_preferences;
