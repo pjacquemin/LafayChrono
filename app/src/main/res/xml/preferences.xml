@@ -6,7 +6,7 @@
             android:key="battery_save_theme"
             android:title="Theme to save battery"
             android:summary="Theme optimized to save the battery"
-            android:defaultValue="1" />
+            android:defaultValue="0" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="Sound and vibration">
