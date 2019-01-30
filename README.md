@@ -10,3 +10,7 @@ Things used in this project :
 <img width="250" alt="home" src="https://github.com/pjacquemin/LafayChrono/blob/master/screenshots/home.png"> <img width="250" alt="home_countdown_started" src="https://github.com/pjacquemin/LafayChrono/blob/master/screenshots/home_start.png">
 
 <img width="250" alt="settings" src="https://github.com/pjacquemin/LafayChrono/blob/master/screenshots/preferences.png"> <img width="250" alt="preferences_time_widget" src="https://github.com/pjacquemin/LafayChrono/blob/master/screenshots/preferences_time.png">
+
+<img width="250" alt="battery_theme" src="https://github.com/pjacquemin/LafayChrono/blob/master/screenshots/battery_theme.png">
+
+<img width="450" alt="tablet" src="https://github.com/pjacquemin/LafayChrono/blob/master/screenshots/tablet.png">
