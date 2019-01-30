@@ -34,15 +34,23 @@ public class CountDownButtonTimer extends CountDownTimer {
     @Override
     public void onFinish() {
         activity.resetCountDowns();
-        activity.playCountdownFinishedSound();
         activity.vibrateCountDownFinished();
     }
 
     @Override
     public void onTick(long millisUntilFinished) {
         millisInFuture = millisUntilFinished;
+
+        if(isLastThreeSeconds()) {
+            activity.playCountdownFinishingSound();
+        }
+
         time_until_finished = getRemainingTimeInString();
 
         activity.setRemainingTimeOnCountdownButton(time_until_finished);
+    }
+
+    private boolean isLastThreeSeconds() {
+        return millisInFuture < 4000;
     }
 }

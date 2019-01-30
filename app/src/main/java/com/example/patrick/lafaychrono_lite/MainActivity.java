@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         touched_button.setText(remaining_time);
     }
 
-    public void playCountdownFinishedSound() {
+    public void playCountdownFinishingSound() {
         if(alarm_countdown_finished) {
             MediaPlayerSingleton.getInstance(this).getMediaPlayer().start();
         }

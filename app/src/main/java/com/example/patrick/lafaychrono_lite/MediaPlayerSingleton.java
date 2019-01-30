@@ -9,7 +9,7 @@ public class MediaPlayerSingleton {
 
     private MediaPlayerSingleton(MainActivity activity){
         Uri notification = Uri.parse("android.resource://"
-                + activity.getPackageName() + "/" + R.raw.countdown_finished);
+                + activity.getPackageName() + "/" + R.raw.countdown_finishing);
         media_player = MediaPlayer.create(activity.getApplicationContext(), notification);
     }
 
