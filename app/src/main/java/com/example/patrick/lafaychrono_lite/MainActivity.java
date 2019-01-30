@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         vibrate_countdown_button = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_TOUCH_KEY, true);
         vibrate_countdown_finished = shared_preferences.getBoolean(SHARED_PREF_VIBRATE_FINISHED_KEY, true);
         alarm_countdown_finished = shared_preferences.getBoolean(SHARED_PREF_ALARM_FINISHED_KEY, true);
-        energy_save_theme = shared_preferences.getBoolean(SHARED_PREF_BATTERY_SAVE_THEME_KEY, true);
+        energy_save_theme = shared_preferences.getBoolean(SHARED_PREF_BATTERY_SAVE_THEME_KEY, false);
     }
 
     private void initializeComponentsVariables() {
